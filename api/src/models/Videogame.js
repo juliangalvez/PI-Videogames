@@ -32,8 +32,5 @@ module.exports = (sequelize) => {
       type: DataTypes.STRING,
       allowNull: false
     }
-  },{timestamps: true,
-    createdAt: 'added',
-    updatedAt: false
-  });
+  },{timestamps: false});
 };
