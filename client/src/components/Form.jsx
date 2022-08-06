@@ -1,0 +1,171 @@
+import axios from "axios";
+import { React, useState, useEffect } from "react";
+import { pf, validate, validator } from "../js/modules";
+
+export default function Form() {
+  const [game, setGame] = useState({
+    name: "",
+    description: "",
+    image: "",
+    released: "",
+    rating: "",
+    genres: [],
+    platforms: [],
+  });
+
+  const [formErr, setformErr] = useState({});
+  const [errorButton, setErrorButton] = useState(
+    Object.keys(formErr).length < 1 ? false : true
+  );
+
+  function handleChange(e) {
+    setGame({
+      ...game,
+      [e.target.name]: e.target.value,
+    });
+
+    setTimeout(() => {
+      setformErr(validate(game));
+    }, 1000);
+  }
+
+  //   function handleChange(e) {
+  //     e.preventDefault();
+  //     setGame((prevData) => {
+  //       return {
+  //         ...prevData,
+  //         [e.target.name]: e.target.value,
+  //       };
+  //     });
+
+  //     setTimeout(() => {
+  //       console.log(game);
+  //     }, 2000);
+  //     // setTimeout(() => {
+  //     //     setformErr(modules.validate(game))
+  //     // }, 1000);
+  //   }
+
+  //function handleGenres(e) {}
+
+  function handlePlatforms(e) {
+    setGame({
+      ...game,
+      platforms: [...game.platforms, e.target.value],
+    });
+    console.log(game);
+  }
+
+  async function handleSubmit(e) {
+    e.preventDefault();
+    //validar
+    //await axios.post("http://localhost:3001/create", game)
+    if (validator(game)) 
+    
+    console.log(game);
+    // setGame({
+    //   name: "",
+    //   description: "",
+    //   image: "",
+    //   released: "",
+    //   rating: "",
+    //   genres: [],
+    //   platforms: [],
+    // });
+    // Mensaje de creacion exitosa
+  }
+
+  return (
+    <div>
+      <div>
+        <form onSubmit={handleSubmit}>
+          <div>
+            <label>Name</label>
+            <input
+              key="name"
+              name="name"
+              value={game.name}
+              onChange={handleChange}
+            ></input>
+            {formErr.name ? <h4>{formErr.name}</h4> : false}
+            {/* ------- */}
+            <label>Description</label>
+            <input
+              key="description"
+              name="description"
+              value={game.description}
+              onChange={handleChange}
+            ></input>
+            {formErr.description ? <h4>{formErr.description}</h4> : false}
+            {/* ------- */}
+            <label>Image</label>
+            <input
+              key="image"
+              name="image"
+              value={game.image}
+              onChange={handleChange}
+            ></input>
+            {/* ------- */}
+            <label>Released</label>
+            <input
+              key="released"
+              name="released"
+              value={game.released}
+              onChange={handleChange}
+            ></input>
+            {formErr.released ? <h4>{formErr.released}</h4> : false}
+            {/* ------- */}
+            <label>Rating</label>
+            <input
+              key="rating"
+              name="rating"
+              value={game.rating}
+              onChange={handleChange}
+            ></input>
+            {formErr.rating ? <h4>{formErr.rating}</h4> : false}
+            {/* ------- */}
+            {/* <label>Genres</label>
+            <input></input> */}
+            {/* ------- */}
+
+            {pf.map((p, i) => {
+              return (
+                <div key={p}>
+                  <input
+                    type="checkbox"
+                    name={p}
+                    value={p}
+                    onChange={handlePlatforms}
+                    key={i}
+                  ></input>
+                  <label>{p}</label>
+                </div>
+              );
+            })}
+            <button type="submit" disabled={errorButton}>
+              Create
+            </button>
+            {/* <select
+              name="platforms"
+              value={game.platforms}
+              onChange={handlePlatforms}
+            >
+              {pf.map((p,i) => {
+                console.log(p," -- ",i)
+                return <option value={p} key={i}>p</option>;
+                
+              })}
+            </select> */}
+            {/* ------- */}
+          </div>
+        </form>
+      </div>
+    </div>
+  );
+}
+// list.map((currElement, index) => {
+//     console.log("The current iteration is: " + index);
+//     console.log("The current element is: " + currElement);
+//     console.log("\n");
+//     return currElement; //equivalent to list[index]
+//   });
