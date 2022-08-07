@@ -1,8 +1,11 @@
 import React from "react";
 
-export default function Card({ name, image, genres }) {
+export default function Card({ name, image, rating, genres, platforms }) {
   return (
     <div>
+      <div>
+        <h4>{rating}</h4>
+      </div>
       <div>
         <h4>{name}</h4>
       </div>
@@ -11,6 +14,9 @@ export default function Card({ name, image, genres }) {
       </div>
       <div>
         <h1>{genres}</h1>
+      </div>
+      <div>
+        <h1>{platforms}</h1>
       </div>
     </div>
   );

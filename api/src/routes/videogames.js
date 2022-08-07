@@ -7,25 +7,6 @@ const { Op } = require("sequelize");
 const { API_KEY } = process.env;
 const { aB, validator } = require("../js/modules");
 
-router.get("/platforms", async (req, res) => {
-  try {
-    const result = (
-      await axios.get(
-        `https://api.rawg.io/api/platforms?key=3ec462367fd7474da4953aa0569ef4e4`
-      )
-    ).data.results;
-    const platforms = result
-      .map((p) => {
-        return p.name;
-      })
-      .sort(aB);
-
-    return res.send(platforms);
-  } catch (err) {
-    res.json({ msg: "Platforms not found" });
-  }
-});
-
 // HOME
 router.get("/", async (req, res) => {
   if (req.query.name) {
@@ -78,19 +59,19 @@ router.get("/", async (req, res) => {
     }
   } else {
     try {
-      // const result = (
-      //   await axios.get(`https://api.rawg.io/api/games?key=${API_KEY}`)
-      // ).data.results;
+      const result = (
+        await axios.get(`https://api.rawg.io/api/games?key=${API_KEY}`)
+      ).data.results;
 
-      // const apiGamesFormat = result.map((game) => {
-      //   const obj = {
-      //     id: game.id,
-      //     name: game.name,
-      //     image: game.background_image,
-      //     genres: game.genres.map((g) => g.name).sort(aB),
-      //   };
-      //   return obj;
-      // });
+      const apiGamesFormat = result.map((game) => {
+        const obj = {
+          id: game.id,
+          name: game.name,
+          image: game.background_image,
+          genres: game.genres.map((g) => g.name).sort(aB),
+        };
+        return obj;
+      });
 
       const dbGames = await Videogame.findAll({ include: [{ model: Genre }] });
 
@@ -107,10 +88,10 @@ router.get("/", async (req, res) => {
         };
       });
 
-      const all = [...dbGamesFormat];
+      const all = [...dbGamesFormat, ...apiGamesFormat];
       res.json(all);
     } catch (error) {
-      res.send({ msg: "Can not retrieve games from api" });
+      res.send({ msg: "Can't retrieve games from api" });
     }
   }
 });
@@ -169,19 +150,23 @@ router.get("/:id", async (req, res) => {
 router.post("/create", async (req, res) => {
   const { game } = req.body;
 
-  //if(!validator(game)) res.json({msg: "Error en uno o mas datos"})
+  if (!game.image.length)
+    game.image =
+      "https://as01.epimg.net/meristation/imagenes/2022/08/05/noticias/1659707530_855941_1659707638_noticia_normal_recorte1.jpg";
 
-  try {
-    const newGame = await Videogame.create(game);
+  if (validator(game)) {
+    try {
+      const newGame = await Videogame.create(game);
 
-    newGame.addGenres(game.genres);
-    const aux = await Videogame.findByPk(newGame.id, {
-      include: [{ model: Genre }],
-    });
-    res.send(aux);
-  } catch (error) {
-    console.log(error);
-  }
+      newGame.addGenres(game.genres);
+      const findGame = await Videogame.findByPk(newGame.id, {
+        include: [{ model: Genre }],
+      });
+      res.send(findGame);
+    } catch (error) {
+      console.log(error);
+    }
+  } else return res.json({ msg: "Can't create, got error/s in form!" });
 });
 
 module.exports = router;

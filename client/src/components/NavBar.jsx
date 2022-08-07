@@ -1,19 +1,26 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { getGames } from "../redux/actions";
 import styled from "styled-components";
 import SearchBar from "./SearchBar";
 
 const NavBar = () => {
+  const dispatch = useDispatch();
+
+  function handleClick() {
+    dispatch(getGames());
+  }
+
   return (
     <>
       <Nav>
-        
-          <Link to="/videogames" className="links">
-            <h2>
-              games <span>vault</span>
-            </h2>
-          </Link>
-        
+        <Link to="/videogames" className="links" onClick={handleClick}>
+          <h2>
+            games <span>vault</span>
+          </h2>
+        </Link>
+
         <div>
           <SearchBar />
         </div>
@@ -21,7 +28,7 @@ const NavBar = () => {
           <Link to="/creategame" className="links">
             <button>Create game</button>
           </Link>
-          <Link to="/videogames" className="links">
+          <Link to="/videogames" className="links" onClick={handleClick}>
             <button>Games</button>
           </Link>
         </div>

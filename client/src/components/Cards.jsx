@@ -21,7 +21,7 @@ export default function Cards() {
       <div>
         {gameState.length > 0 ? gameState.map(g =>
             <Link key={g.id}to={`/videogames/${g.id}`}>
-                <Card name={g.name} image={g.image} genres={g.genres}/>
+                <Card rating={g.rating} name={g.name} image={g.image} genres={g.genres} platforms={g.platforms}/>
             </Link>)
              : <h2>Componente de error</h2>}
       </div>

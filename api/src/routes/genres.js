@@ -9,8 +9,15 @@ const { aB } = require("../js/modules");
 router.get("/", async (req, res) => {
   try {
     const dbGenres = await Genre.findAll();
-    if (dbGenres.length) return res.json(dbGenres);
+    if (dbGenres.length) {
+      let objJs = JSON.parse(JSON.stringify(dbGenres));
 
+      let formatDbGenres = objJs.map((g) => {
+        return g.name;
+      });
+
+      return res.json(formatDbGenres);
+    }
     const result = (
       await axios.get(`https://api.rawg.io/api/genres?key=${API_KEY}`)
     ).data.results;
@@ -26,8 +33,12 @@ router.get("/", async (req, res) => {
         return obj;
       });
 
+    let formatGenres = genres.map((g) => {
+      return g.name;
+    });
+    console.log(formatGenres);
     await Genre.bulkCreate(genres);
-    res.send(genres);
+    res.send(formatGenres);
   } catch (err) {
     res.json({ msg: "Genres not found" });
   }

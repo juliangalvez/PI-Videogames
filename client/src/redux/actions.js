@@ -1,26 +1,42 @@
 import axios from "axios";
+import {
+  GET_GAMES,
+  GET_GENRES,
+  GET_GAME_DETAIL,
+  GET_SEARCH,
+} from "./constants";
 
 export const getGames = () => {
   return async (dispatch) => {
     let apiGet = await axios.get("http://localhost:3001/videogames");
     console.log(apiGet.data);
-    dispatch({ type: "GET_GAMES", payload: apiGet.data });
+    dispatch({ type: GET_GAMES, payload: apiGet.data });
   };
 };
+
+export const getGenres = () => {
+  return async (dispatch) => {
+    let apiGet = await axios.get("http://localhost:3001/genres");
+    dispatch({ type: GET_GENRES, payload: apiGet.data });
+  };
+};
+
 export const getGameDetail = (id) => {
   return async (dispatch) => {
     let apiGet = await axios.get(`http://localhost:3001/videogames/${id}`);
     console.log(apiGet.data);
-    dispatch({ type: "GET_GAME_DETAIL", payload: apiGet.data });
+    dispatch({ type: GET_GAME_DETAIL, payload: apiGet.data });
   };
 };
 
 export const searchGame = (name) => {
   return async (dispatch) => {
     try {
-      let apiGet = await axios.get(`http://localhost:3001/videogames?name=${name}`);
+      let apiGet = await axios.get(
+        `http://localhost:3001/videogames?name=${name}`
+      );
       console.log(apiGet.data);
-      dispatch({ type: "GET_SEARCH", payload: apiGet.data });
+      dispatch({ type: GET_SEARCH, payload: apiGet.data });
     } catch (error) {
       console.log(error);
     }
@@ -36,8 +52,3 @@ export const searchGame = (name) => {
 //       });
 //   };
 // }
-
-// Para post con redux -- axios.post("http://localhost:3001/videogames", objeto);
-// export const createGame = () => {
-//   return async (dispatch) => {};
-// };
