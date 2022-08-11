@@ -6,7 +6,7 @@ import { getGenres } from "../redux/actions";
 
 export default function Form() {
   const dispatch = useDispatch();
-  const genres = useSelector((state) => state.genres);
+  let genres = useSelector((state) => state.genres);
 
   useEffect(() => {
     dispatch(getGenres());

@@ -4,8 +4,11 @@ import { useDispatch } from "react-redux";
 import { getGames } from "../redux/actions";
 import styled from "styled-components";
 import SearchBar from "./SearchBar";
+import { BtnAdd, BtnMain} from "./styles";
+import logo from "../img/Logo.png";
 
-const NavBar = () => {
+
+function NavBar() {
   const dispatch = useDispatch();
 
   function handleClick() {
@@ -14,46 +17,72 @@ const NavBar = () => {
 
   return (
     <>
-      <Nav>
-        <Link to="/videogames" className="links" onClick={handleClick}>
-          <h2>
-            games <span>vault</span>
-          </h2>
-        </Link>
+      <NavWrap>
+        <Nav>
+        
+          <div>
+            <Link to="/videogames" className="links" onClick={handleClick}>
+              <img className="logo" src={logo} alt="f" />
+            </Link>
+          </div>
 
-        <div>
-          <SearchBar />
-        </div>
-        <div>
-          <Link to="/creategame" className="links">
-            <button>Create game</button>
-          </Link>
-          <Link to="/videogames" className="links" onClick={handleClick}>
-            <button>Games</button>
-          </Link>
-        </div>
-      </Nav>
+          <div>
+            <SearchBar />
+          </div>
+          <div className="right-nav">
+            <div className="rigth-div-games">
+              <Link to="/videogames" className="links" onClick={handleClick}>
+                <BtnMain>
+                  {"< GAMES"}
+                </BtnMain>
+              </Link>
+            </div>
+            <div className="rigth-div-add">
+              <Link to="/creategame" className="links">
+                <BtnAdd>
+                  <span className="button_top">{"+ ADD GAME"}</span>
+                </BtnAdd>
+              </Link>
+            </div>
+          </div>
+        </Nav>
+      </NavWrap>
     </>
   );
-};
+}
 
 export default NavBar;
 
+const NavWrap = styled.div`
+  //position: fixed;
+`;
+
 const Nav = styled.nav`
-  h2 {
-    font-weight: 400;
-    span {
-      font-weight: bold;
-    }
-  }
-  background-color: #aaaaaa;
-  padding: 0.4rem;
   display: flex;
+  flex-direction: row;
   align-items: center;
   justify-content: space-between;
+  padding-top: 20px;
+  .right-nav {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+  }
   .links {
     color: black;
     text-decoration: none;
-    margin-right: 2rem;
+    //margin-right: 2rem;
+  }
+  .rigth-div-games{
+   background: black;
+   width: 136px;
+   height: 61px;
+   margin-right: 20px;
+  }
+  .rigth-div-add{
+   background: black;
+   width: 188px;
+   height: 61px;
+   margin-right: 20px;
   }
 `;

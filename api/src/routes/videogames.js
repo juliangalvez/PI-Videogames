@@ -27,6 +27,7 @@ router.get("/", async (req, res) => {
         };
         return obj;
       });
+
       const dbGames = await Videogame.findAll({
         where: {
           name: {
@@ -58,21 +59,25 @@ router.get("/", async (req, res) => {
       res.json({ msg: "Game/s not found" });
     }
   } else {
+    // 
     try {
-      const result = (
-        await axios.get(`https://api.rawg.io/api/games?key=${API_KEY}`)
-      ).data.results;
+                        // 1RS PAGE GET
+      // const result = (
+      //   await axios.get(`https://api.rawg.io/api/games?key=${API_KEY}`)
+      // ).data.results;
 
-      const apiGamesFormat = result.map((game) => {
-        const obj = {
-          id: game.id,
-          name: game.name,
-          image: game.background_image,
-          genres: game.genres.map((g) => g.name).sort(aB),
-        };
-        return obj;
-      });
-
+      // const apiGamesFormat = result.map((game) => {
+      //   const obj = {
+      //     id: game.id,
+      //     name: game.name,
+      //     image: game.background_image,
+      //     rating: game.rating,
+      //     genres: game.genres.map((g) => g.name).sort(aB),
+      //   };
+      //   return obj;
+      // });
+                        //  1RS PAGE GET -- END
+                        
       const dbGames = await Videogame.findAll({ include: [{ model: Genre }] });
 
       const dbGamesFormat = JSON.parse(JSON.stringify(dbGames)).map((e) => {
@@ -87,8 +92,8 @@ router.get("/", async (req, res) => {
           genres: e.genres.map((g) => g.name).sort(aB),
         };
       });
-
-      const all = [...dbGamesFormat, ...apiGamesFormat];
+      // const all = [...dbGamesFormat, ...apiGamesFormat];
+      const all = [...dbGamesFormat];
       res.json(all);
     } catch (error) {
       res.send({ msg: "Can't retrieve games from api" });
