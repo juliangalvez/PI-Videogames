@@ -10,10 +10,10 @@ function App() {
     <BrowserRouter>
     <GlobalStyle/>
       <div className="App">
-        <Route exact path="/" component={Landing} />
-        <Route exact path="/videogames" component={Home} />
         <Route path="/videogames/:id" component={CardDetail} />
+        <Route exact path="/videogames" component={Home} />
         <Route exact path="/creategame" component={Form} />
+        <Route exact path="/" component={Landing} />
       </div>
     </BrowserRouter>
   );

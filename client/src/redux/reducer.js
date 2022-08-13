@@ -1,33 +1,41 @@
-import { ab, ba } from "../js/modules";
+import { ab, ba, nab, nba } from "../js/modules";
 import {
   GET_GAMES,
   GET_GENRES,
   GET_GAME_DETAIL,
   GET_SEARCH,
   FILTER_BY_GENRE,
-  FILTER_CREATED,
+  FILTER_ORIGIN,
   SORT_BY_NAME,
-  SORT_BY_RATING
+  SORT_BY_RATING,
+  ERROR_HANDLER,
 } from "./constants";
 
-let allGames = 0;
+let content = 0;
+let allContent = 0;
+let sortRating = [];
 
 let initialState = {
-  games: [],
   allGames: [],
+  api: [],
+  created: [],
+  games: [],
+  game: [],
   genres: [],
-  detail: [],
-  filters: [],
+  filter: "all",
+  error: "",
+  result: true,
+  searchResult: [],
 };
-
 
 export default function rootReducer(state = initialState, action) {
   switch (action.type) {
     case GET_GAMES:
       return {
         ...state,
-        games: action.payload,
         allGames: action.payload,
+        games: action.payload,
+        searchResult: [],
       };
 
     case GET_GENRES:
@@ -46,51 +54,95 @@ export default function rootReducer(state = initialState, action) {
       return {
         ...state,
         games: action.payload,
+        searchResult: action.payload,
+      };
+
+    case FILTER_ORIGIN:
+      allContent = state.allGames;
+
+      let createdFiltered;
+      if (action.payload === "all") {
+        createdFiltered = allContent;
+      }
+      if (action.payload === "api") {
+        createdFiltered = allContent.filter((f) => !f.id.length);
+      }
+      if (action.payload === "created") {
+        createdFiltered = allContent.filter((f) => f.id.length > 7);
+      }
+      console.log(createdFiltered);
+      return {
+        ...state,
+        searchResult: [],
+        api: createdFiltered,
+        created: createdFiltered,
+        games: createdFiltered,
+        filter: action.payload,
       };
 
     case FILTER_BY_GENRE:
-      allGames = state.allGames;
-      const genreFiltered = allGames.filter((f) =>
+      if (!state.searchResult.length) {
+        if (state.filter === "all") {
+          content = state.allGames;
+        }
+        if (state.filter === "api") {
+          content = state.api;
+        }
+        if (state.filter === "created") {
+          content = state.created;
+        }
+      } else {
+        content = state.searchResult;
+      }
+
+      const genreFiltered = content.filter((f) =>
         f.genres.includes(action.payload)
       );
+
+      let res = false;
+      if (genreFiltered.length) res = true;
+
       return {
         ...state,
         games: genreFiltered,
-      };
-
-    case FILTER_CREATED:
-      allGames = state.allGames;
-
-      let createdFiltered;
-      if(action.payload === 'all') { createdFiltered = allGames;}
-      if(action.payload === 'api') { createdFiltered = allGames.filter((f) => !f.id.length);}
-      if(action.payload === 'created') { createdFiltered = allGames.filter((f) => f.id.length > 7);}
-
-      return {
-        ...state,
-        games: createdFiltered
+        result: res,
       };
 
     case SORT_BY_NAME:
-        allGames =state.games;
+      content = state.games;
 
-        console.log(allGames)
-        let sortName = action.payload === 'asc' ? allGames.sort(ab) : allGames.sort(ba)
-        console.log(sortName)
-        return {
-            ...state,
-            games: sortName
-        }
+      let sortName =
+        action.payload === "asc" ? content.sort(ab) : content.sort(ba);
+
+      return {
+        ...state,
+        games: sortName,
+      };
 
     case SORT_BY_RATING:
-        allGames =state.games;
+      content = state.games;
 
-        let sortRating = action.payload === 0 ? allGames.sort((a,b)=> {return a.rating - b.rating}) : allGames.sort((a,b)=> {return a.rating + b.rating})
-        console.log(sortRating)
-        return {
-            ...state,
-            games: sortRating
-        }
+      if (action.payload === "0") {
+        sortRating = content.sort(nab);
+      }
+
+      if (action.payload === "5") {
+        sortRating = content.sort(nba);
+      }
+
+      return {
+        ...state,
+        games: sortRating,
+      };
+
+    case ERROR_HANDLER:
+      let error = "";
+      if (action.payload.length > 0) error = action.payload;
+
+      return {
+        ...state,
+        error: error,
+      };
 
     default:
       return state;

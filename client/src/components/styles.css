@@ -1,0 +1,125 @@
+.loading {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  font-size: 48px;
+}
+.nores {
+  font-size: 48px;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  width: 1300px;
+  max-width: 1300px;
+  margin: 0 auto;
+}
+
+.error-display {
+  height: 100px;
+}
+
+.header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  height: 100px;
+  background-color: #A259FF;
+}
+
+.back {
+  width: 61px;
+  height: 61px;
+}
+
+.add-game{
+    width: 700px;
+    height: 100px;
+    display: flex;
+    
+    align-items: center;
+   
+    justify-content: center;
+
+}
+
+.div-border {
+  display: flex;
+  justify-content: center;
+  margin: auto;
+  
+  width: 700px;
+}
+
+.div-container {
+  width: 700px;
+  border: solid black;
+  border-width: 1px 3px 5px 1px;
+  justify-content: center;
+  margin: auto;
+  
+}
+
+.first-row {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  width: 310px;
+}
+
+.h4 {
+  color: brown;
+  font-size: 18px;
+  margin-top: 0px;
+  height: 10px;
+}
+
+.second-row {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  width: 310px;
+}
+
+.item-group {
+  height: 100px;
+}
+.item-rel {
+  height: 147px;
+}
+
+.item-image {
+  height: 80px;
+}
+
+.item-desc {
+  min-height: 159px;
+}
+
+.text {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.labels {
+}
+
+.inputs {
+  font-family: VT323;
+  font-size: 32px;
+}
+
+.inputs::placeholder {
+  font-size: 22px;
+}
+
+.fieldset {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  height: 180px;
+  margin-bottom: 10px;
+}

@@ -5,15 +5,21 @@ import {
   GET_GAME_DETAIL,
   GET_SEARCH,
   FILTER_BY_GENRE,
-  FILTER_CREATED,
+  FILTER_ORIGIN,
   SORT_BY_NAME,
   SORT_BY_RATING,
+  ERROR_HANDLER
 } from "./constants";
 
 export const getGames = () => {
   return async (dispatch) => {
-    let apiGet = await axios.get("http://localhost:3001/videogames");
-    dispatch({ type: GET_GAMES, payload: apiGet.data });
+    try {
+      let apiGet = await axios.get("http://localhost:3001/videogames");
+      dispatch({ type: GET_GAMES, payload: apiGet.data });
+    } catch (error) {
+      dispatch({ type: "ERROR_HANDLER", payload: error.response.data });
+      console.log(error.response.data);
+    }
   };
 };
 
@@ -41,7 +47,8 @@ export const searchGame = (name) => {
       console.log(apiGet.data);
       dispatch({ type: GET_SEARCH, payload: apiGet.data });
     } catch (error) {
-      console.log(error);
+      dispatch({ type: ERROR_HANDLER, payload: error.response.data });
+      console.log(error.response.data);
     }
   };
 };
@@ -49,31 +56,36 @@ export const searchGame = (name) => {
 export function filterByGenre(payload) {
   return {
     type: FILTER_BY_GENRE,
-    payload
-  }
+    payload,
+  };
 }
 
 export function filterCreated(payload) {
   return {
-    type: FILTER_CREATED,
-    payload
-  }
+    type: FILTER_ORIGIN,
+    payload,
+  };
 }
 
 export function sortName(payload) {
   return {
     type: SORT_BY_NAME,
-    payload
-  }
+    payload,
+  };
 }
 
 export function sortRating(payload) {
   return {
     type: SORT_BY_RATING,
-    payload
-  }
+    payload,
+  };
 }
-
+export function errorHandler(payload) {
+  return {
+    type: ERROR_HANDLER,
+    payload,
+  };
+}
 
 // export function searchGame(name) {
 //   return function (dispatch) {

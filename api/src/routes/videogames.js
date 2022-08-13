@@ -7,6 +7,7 @@ const { Op } = require("sequelize");
 const { API_KEY } = process.env;
 const { aB, validator } = require("../js/modules");
 
+
 // HOME
 router.get("/", async (req, res) => {
   if (req.query.name) {
@@ -18,11 +19,13 @@ router.get("/", async (req, res) => {
         )
       ).data.results;
 
+      
       const searchApi = result.map((game) => {
         const obj = {
           id: game.id,
           name: game.name,
           image: game.background_image,
+          rating: game.rating,
           genres: game.genres.map((g) => g.name).sort(aB),
         };
         return obj;
@@ -52,30 +55,30 @@ router.get("/", async (req, res) => {
 
       const all = [...searchDb, ...searchApi];
       all.splice(15);
-      if (!all.length) return res.status(400).json(`${name}, not found`);
+      if (!all.length) return res.status(400).send(`${name}, not found`);
 
       res.send(all);
     } catch (error) {
-      res.json({ msg: "Game/s not found" });
+      res.status(400).send(`${name}, not found`);
     }
   } else {
     // 
     try {
                         // 1RS PAGE GET
-      // const result = (
-      //   await axios.get(`https://api.rawg.io/api/games?key=${API_KEY}`)
-      // ).data.results;
+      const result = (
+        await axios.get(`https://api.rawg.io/api/games?key=${API_KEY}`)
+      ).data.results;
 
-      // const apiGamesFormat = result.map((game) => {
-      //   const obj = {
-      //     id: game.id,
-      //     name: game.name,
-      //     image: game.background_image,
-      //     rating: game.rating,
-      //     genres: game.genres.map((g) => g.name).sort(aB),
-      //   };
-      //   return obj;
-      // });
+      const apiGamesFormat = result.map((game) => {
+        const obj = {
+          id: game.id,
+          name: game.name,
+          image: game.background_image,
+          rating: game.rating,
+          genres: game.genres.map((g) => g.name).sort(aB),
+        };
+        return obj;
+      });
                         //  1RS PAGE GET -- END
                         
       const dbGames = await Videogame.findAll({ include: [{ model: Genre }] });
@@ -92,11 +95,12 @@ router.get("/", async (req, res) => {
           genres: e.genres.map((g) => g.name).sort(aB),
         };
       });
-      // const all = [...dbGamesFormat, ...apiGamesFormat];
-      const all = [...dbGamesFormat];
-      res.json(all);
+       const all = [...dbGamesFormat, ...apiGamesFormat];
+      //const all = [...dbGamesFormat];
+      res.status(200).json(all);
     } catch (error) {
-      res.send({ msg: "Can't retrieve games from api" });
+      console.log(error)
+      res.status(400).send("Can't retrieve games from api");
     }
   }
 });
@@ -146,7 +150,7 @@ router.get("/:id", async (req, res) => {
 
       return res.send(obj);
     } catch (error) {
-      res.send({ msg: "Id param not found" });
+      res.status(400).send("Game not found");
     }
   }
 });
@@ -157,7 +161,7 @@ router.post("/create", async (req, res) => {
 
   if (!game.image.length)
     game.image =
-      "https://as01.epimg.net/meristation/imagenes/2022/08/05/noticias/1659707530_855941_1659707638_noticia_normal_recorte1.jpg";
+      "https://mir-s3-cdn-cf.behance.net/project_modules/max_1200/12c8ce61832289.5a7b437f7c6c2.png";
 
   if (validator(game)) {
     try {
@@ -169,9 +173,9 @@ router.post("/create", async (req, res) => {
       });
       res.send(findGame);
     } catch (error) {
-      console.log(error);
+      res.send("Can't create, got error/s in form!");
     }
-  } else return res.json({ msg: "Can't create, got error/s in form!" });
+  } else return res.send("Can't create, got error/s in form!");
 });
 
 module.exports = router;

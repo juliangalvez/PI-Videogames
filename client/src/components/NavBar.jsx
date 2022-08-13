@@ -1,25 +1,24 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { getGames } from "../redux/actions";
+import { getGames, errorHandler } from "../redux/actions";
 import styled from "styled-components";
 import SearchBar from "./SearchBar";
-import { BtnAdd, BtnMain} from "./styles";
+import { BtnAdd, BtnMain } from "./styles";
 import logo from "../img/Logo.png";
-
 
 function NavBar() {
   const dispatch = useDispatch();
 
   function handleClick() {
     dispatch(getGames());
+    dispatch(errorHandler(""))
   }
 
   return (
     <>
       <NavWrap>
         <Nav>
-        
           <div>
             <Link to="/videogames" className="links" onClick={handleClick}>
               <img className="logo" src={logo} alt="f" />
@@ -32,9 +31,7 @@ function NavBar() {
           <div className="right-nav">
             <div className="rigth-div-games">
               <Link to="/videogames" className="links" onClick={handleClick}>
-                <BtnMain>
-                  {"< GAMES"}
-                </BtnMain>
+                <BtnMain>{"< GAMES"}</BtnMain>
               </Link>
             </div>
             <div className="rigth-div-add">
@@ -73,16 +70,16 @@ const Nav = styled.nav`
     text-decoration: none;
     //margin-right: 2rem;
   }
-  .rigth-div-games{
-   background: black;
-   width: 136px;
-   height: 61px;
-   margin-right: 20px;
+  .rigth-div-games {
+    background: black;
+    width: 136px;
+    height: 61px;
+    margin-right: 20px;
   }
-  .rigth-div-add{
-   background: black;
-   width: 188px;
-   height: 61px;
-   margin-right: 20px;
+  .rigth-div-add {
+    background: black;
+    width: 188px;
+    height: 61px;
+    margin-right: 20px;
   }
 `;

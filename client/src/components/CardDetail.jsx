@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
 import { getGameDetail } from "../redux/actions";
+import NavBar from "./NavBar";
 
 export default function CardDetail() {
   let gameDetail = useSelector((state) => state.game);
@@ -16,6 +17,9 @@ export default function CardDetail() {
   return (
     <>
       <div>
+      <div>
+        <NavBar/>
+      </div>
         <div>
           <h4>{gameDetail.name}</h4>
         </div>

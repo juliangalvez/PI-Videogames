@@ -12,6 +12,7 @@ import {
 import Cards from "./Cards";
 import NavBar from "./NavBar";
 import Pager from "./Pager";
+import Error from "./Error";
 import {
   Container,
   Content,
@@ -25,44 +26,51 @@ import {
   PagerWrap,
   BtnOrigin,
   Theme,
-  
+  BtnSort,
 } from "./styles";
 
 export default function Home() {
-  let gameState = useSelector((state) => state.games);
-  let genres = useSelector((state) => state.genres); // Selecciona el estado global
+  let gamesState = useSelector((state) => state.games);
+  let genres = useSelector((state) => state.genres);
+
+
+
   const dispatch = useDispatch();
 
   const [order, setOrder] = useState("");
-  const [originBtn, setOriginBtn] = useState('all');
+  const [originBtn, setOriginBtn] = useState("all");
   const [genreBtn, setGenreBtn] = useState("");
-  //const [disab, setDisab] = useState("");
-
-
-  // useEffect(() => {
-  //   dispatch(getGames());
-  //   document.getElementById('all').disabled = true;
-  //   dispatch(getGenres());
-  // }, [dispatch]);
-
+  const [doOnce, setDoOnce] = useState(false);
+  
 
   useEffect(() => {
-    if (!gameState.length) {
-      dispatch(getGames());
-    }
-    dispatch(getGenres());
-  }, [gameState, dispatch]);
+    dispatch(getGames());
+  }, [dispatch]);
 
   useEffect(() => {}, [order]);
+  useEffect(() => {
+    if (doOnce === false) {
+      document.getElementById("all").disabled = true;
+      setDoOnce(true);
+    }
+  }, [doOnce]);
 
+  useEffect(() => {
+    if (!genres.length) {
+      dispatch(getGenres());
+    }
+  }, [genres, dispatch, doOnce]);
 
   // FILTERS
- 
+
   //document.querySelector('#all').disabled=true;
-  
+
   function handleCreatedFilter(e) {
     e.preventDefault();
+
+    document.getElementById("all").disabled = false;
     if (originBtn) document.getElementById(originBtn).disabled = false;
+    
     document.getElementById(e.target.value).disabled = true;
     setOriginBtn(e.target.value);
     dispatch(filterCreated(e.target.value));
@@ -91,107 +99,107 @@ export default function Home() {
 
   return (
     <Theme>
-    <Container>
-      <div>
-        <NavBar />
-      </div>
-      <div className="spacer">
-    
-      </div>
-      <Content>
-        <LeftCol>
-          <Filters>
-            <div className="filters-container">
-              <div className="created">
-                <BtnOrigin
-                  id="all"
-                  value="all"
-                  onClick={(e) => handleCreatedFilter(e)}
-                >
-                  ALL
-                </BtnOrigin>
-                <BtnOrigin
-                  id="api"
-                  value="api"
-                  onClick={(e) => handleCreatedFilter(e)}
-                >
-                  API
-                </BtnOrigin>
-                <BtnOrigin
-                  id="created"
-                  value="created"
-                  onClick={(e) => handleCreatedFilter(e)}
-                >
-                  CREATED
-                </BtnOrigin>
-              </div>
+      <Container>
+        <div>
+          <NavBar />
+        </div>
 
-              <div className="genres">
-                <div className="genres-title">GENRE</div>
-                <div>
-                  <form>
-                    {genres.map((g, i) => {
-                      return (
-                        <div className="genres-map" key={g}>
-                          <Btn
-                            id={g}
-                            value={g}
-                            key={i}
-                            onClick={(e) => handleFilterGenres(e)}
-                          >
-                            {g.split(" ", 1)}
-                          </Btn>
-                        </div>
-                      );
-                    })}
-                  </form>
+      <div className="error-display">
+         <Error/>
+      </div>
+       
+        <Content>
+          <LeftCol>
+            <Filters>
+              <div className="filters-container">
+                <div className="created">
+                  <BtnOrigin
+                    id="all"
+                    value="all"
+                    onClick={(e) => handleCreatedFilter(e)}
+                  >
+                    ALL
+                  </BtnOrigin>
+                  <BtnOrigin
+                    id="api"
+                    value="api"
+                    onClick={(e) => handleCreatedFilter(e)}
+                  >
+                    API
+                  </BtnOrigin>
+                  <BtnOrigin
+                    id="created"
+                    value="created"
+                    onClick={(e) => handleCreatedFilter(e)}
+                  >
+                    CREATED
+                  </BtnOrigin>
                 </div>
-              </div>
-              <div>PLATFORMS</div>
 
-            </div>
-          </Filters>
-        </LeftCol>
-        <RightCol>
-          <TopBar>
-            <PagerWrap>
-              <Pager />
-            </PagerWrap>
-            <Sorter>
-              <div>
-                <select
-                  defaultValue="Sort by rating"
-                  onChange={(e) => handleSortRating(e)}
-                >
-                  <option disabled hidden>
-                    Sort by rating
-                  </option>
-                  <option value="0">0 - 5</option>
-                  <option value="5">5 - 0</option>
-                </select>
+                <div className="genres">
+                  <div className="genres-title">GENRE</div>
+                  <div>
+                    <form>
+                      {genres.map((g, i) => {
+                        return (
+                          <div className="genres-map" key={g}>
+                            <Btn
+                              id={g}
+                              value={g}
+                              key={i}
+                              onClick={(e) => handleFilterGenres(e)}
+                            >
+                              {g.split(" ", 1)}
+                            </Btn>
+                          </div>
+                        );
+                      })}
+                    </form>
+                  </div>
+                </div>
+                <div>PLATFORMS</div>
               </div>
-              <div>
-                <select
-                  defaultValue="Sort by name"
-                  onChange={(e) => handleSortName(e)}
-                >
-                  <option disabled hidden>
-                    Sort by name
-                  </option>
-                  <option value="asc">A - Z</option>
-                  <option value="desc">Z - A</option>
-                </select>
-              </div>
-            </Sorter>
-          </TopBar>
-          <CardsWrap>
-            <Cards gameState={gameState} />
-          </CardsWrap>
-        </RightCol>
-      </Content>
-      <div>FOOTER</div>
-      
-    </Container>
+            </Filters>
+          </LeftCol>
+          <RightCol>
+            <TopBar>
+              <PagerWrap>
+                <Pager />
+              </PagerWrap>
+              <Sorter>
+                <div>
+                  <BtnSort
+                    defaultValue="Sort by rating"
+                    onChange={(e) => handleSortRating(e)}
+                  >
+                    <option className="text" value ="Sort by rating"hidden>
+                      Sort by rating
+                    </option>
+                    <option value="0">0 - 5</option>
+                    <option value="5">5 - 0</option>
+                  </BtnSort>
+                </div>
+                <div>
+                  <BtnSort
+                    defaultValue="Sort by name"
+                    onChange={(e) => handleSortName(e)}
+                  >
+                    <option disabled hidden>
+                      Sort by name
+                    </option>
+                    <option value="asc">A - Z</option>
+                    <option value="desc">Z - A</option>
+                  </BtnSort>
+                </div>
+              </Sorter>
+            </TopBar>
+            <CardsWrap>
+              <Cards gamesState={gamesState}/>
+            </CardsWrap>
+          </RightCol>
+        </Content>
+        <div>FOOTER</div>
+      </Container>
     </Theme>
   );
 }

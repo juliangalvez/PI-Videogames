@@ -18,20 +18,10 @@ export const Container = styled.div`
   max-width: 1300px;
   margin: 0 auto;
 
-  .spacer {
+  .error-display{
     height: 100px;
-    button {
-      /* Variables */
-      --button_radius: 0.75em;
-      --button_color: #e8e8e8;
-      --button_outline_color: #000000;
-      font-size: 17px;
-      font-weight: bold;
-      border: none;
-
-      background: green;
-    }
   }
+  
 `;
 
 export const BtnMain = styled.button`
@@ -104,7 +94,6 @@ export const BtnOrigin = styled.button`
   }
 `;
 
-
 export const BtnAdd = styled.button`
   transition: transform 0.2s ease;
   background-color: ${colors.violet};
@@ -113,10 +102,9 @@ export const BtnAdd = styled.button`
   //padding: 0.6em 1.3em;
   width: 188px;
   height: 61px;
-
-  border: 2px solid black;
+  border: solid black;
   border-width: 1px 3px 5px 1px;
-  border-style: solid;
+
   margin-right: 20px;
   &:hover {
     transition: transform 0.1s ease;
@@ -128,29 +116,23 @@ export const BtnAdd = styled.button`
   }
 `;
 
-
-export const BtnAdd2 = styled.button`
+export const BtnSort = styled.select`
+  transition: transform 0.2s ease;
+  background-color: ${colors.green};
   font-family: VT323;
-  font-size: 36px;
-  cursor: pointer;
+  font-size: 27px;
+  //padding: 0.6em 1.3em;
+  width: 150px;
+  height: 61px;
+  border: solid black;
 
-  background-color: ${colors.violet};
-  border: none;
+  border-width: 1px 3px 5px 1px;
   text-align: center;
-  padding-left: 20px;
-  padding-right: 20px;
-  height: 60px;
-  margin-right: 0;
-
-  &:hover {
-    background-color: ${colors.grey300};
-    color: ${colors.grey800};
-  }
-
-  &:disabled {
-    color: ${colors.grey50};
-    background-color: ${colors.grey800};
-  }
+  
+  white-space: pre-wrap;
+  // width:auto;
+  line-height: 1.6;
+  margin-left: 20px;
 `;
 
 export const Content = styled.div`
@@ -169,7 +151,7 @@ export const LeftCol = styled.div`
 export const RightCol = styled.div`
   display: flex;
   flex-direction: column;
-  width: 1120px;
+  width: 1200px;
 `;
 
 export const Sorter = styled.div`

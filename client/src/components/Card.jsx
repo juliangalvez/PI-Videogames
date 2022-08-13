@@ -39,6 +39,8 @@ const CardWrap = styled.div`
   width: 200px;
   height: 300px;
   overflow: hidden;
+  border: solid black;
+  border-width: 1px 3px 5px 1px;
   position: relative;
 
   .name {

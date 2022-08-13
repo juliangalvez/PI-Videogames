@@ -8,7 +8,13 @@ function validRel(str) {
   if (!str.length) return true;
 }
 function validRat(num) {
-  if (!(num >= 0 && num <= 5)) return true;
+  if (!(num > 0 && num <= 5)) return true;
+}
+function validGenre(arr) {
+  if (!(arr.length > 0)) return true;
+}
+function validPlatfor(arr) {
+  if (!(arr.length > 0)) return true;
 }
 
 module.exports = {
@@ -22,6 +28,24 @@ module.exports = {
     else if (a.name > b.name) return -1;
     else return 0;
   },
+  nab: function (a, b) {
+    if (a.rating === b.rating) {
+      return 0;
+    }
+    if (a.rating < b.rating) {
+      return -1;
+    }
+    return 1;
+  }, 
+  nba: function (a, b) {
+    if(a.rating === b.rating) {
+      return 0; 
+    }
+    if(a.rating > b.rating) {
+      return -1;
+    }
+    return 1;
+  }, 
   pf: [
     "Android",
     "iOS",
@@ -42,13 +66,18 @@ module.exports = {
   ],
   validate: function validate(data) {
     let errMsgs = {};
-    if (validName(data.name)) errMsgs.name = "You must write a name";
+    if (validName(data.name)) errMsgs.name = "Must be more than 3 characters long";
     if (validDesc(data.description))
-      errMsgs.description = "You must write a description";
+      errMsgs.description = "Must be more than 9 characters long";
     if (validRel(data.released))
       errMsgs.released = "You must select a release date";
-    if (validRat(data.rating))
+    if (validRat(Number(data.rating)))
       errMsgs.rating = "You must enter a value between 1 and 5";
+    if (validGenre(data.genres))
+      errMsgs.genres = "You must select at least 1 genre";
+    if (validPlatfor(data.platforms))
+      errMsgs.platforms = "You must select at least 1 platform";
+      
     return errMsgs;
   },
   validator: function (data) {
@@ -62,6 +91,7 @@ module.exports = {
     else return false;
     if (data.genres.length > 0) v = true;
     else return false;
+    console.log(v)
     return v;
   },
 };

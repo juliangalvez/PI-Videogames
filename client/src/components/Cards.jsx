@@ -2,14 +2,15 @@ import React from "react";
 import Card from "./Card";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import Msg from "./Msg";
 
-export default function Cards({ gameState }) {
-  // Detecta el cambio y se ejecuta el render
+export default function Cards({ gamesState }) {
+
   return (
     <>
       <Cardswrap>
-        {gameState.length > 0 ? (
-          gameState.map((g) => (
+        {gamesState.length > 0 ? (
+          gamesState.map((g) => (
             <Link style={{ textDecoration: 'none' }} key={g.id} to={`/videogames/${g.id}`}>
               <Card
                 rating={g.rating}
@@ -22,7 +23,7 @@ export default function Cards({ gameState }) {
             </Link>
           ))
         ) : (
-          <h2>Componente de error</h2>
+          <Msg/>
         )}
       </Cardswrap>
     </>
