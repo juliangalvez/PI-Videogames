@@ -7,6 +7,7 @@ import {
   filterCreated,
   sortName,
   sortRating,
+  errorHandler,
 } from "../redux/actions";
 
 import Cards from "./Cards";
@@ -33,18 +34,16 @@ export default function Home() {
   let gamesState = useSelector((state) => state.games);
   let genres = useSelector((state) => state.genres);
 
-
-
   const dispatch = useDispatch();
 
   const [order, setOrder] = useState("");
   const [originBtn, setOriginBtn] = useState("all");
   const [genreBtn, setGenreBtn] = useState("");
   const [doOnce, setDoOnce] = useState(false);
-  
 
   useEffect(() => {
     dispatch(getGames());
+    dispatch(errorHandler(""));
   }, [dispatch]);
 
   useEffect(() => {}, [order]);
@@ -63,14 +62,12 @@ export default function Home() {
 
   // FILTERS
 
-  //document.querySelector('#all').disabled=true;
-
   function handleCreatedFilter(e) {
     e.preventDefault();
 
     document.getElementById("all").disabled = false;
     if (originBtn) document.getElementById(originBtn).disabled = false;
-    
+
     document.getElementById(e.target.value).disabled = true;
     setOriginBtn(e.target.value);
     dispatch(filterCreated(e.target.value));
@@ -89,12 +86,14 @@ export default function Home() {
     e.preventDefault();
     dispatch(sortName(e.target.value));
     setOrder(`Order ${e.target.value}`);
+    document.getElementById("name").value = "Sort by name";
   }
 
   function handleSortRating(e) {
     e.preventDefault();
     dispatch(sortRating(e.target.value));
     setOrder(`Order ${e.target.value}`);
+    document.getElementById("rating").value = "Sort by rating";
   }
 
   return (
@@ -104,10 +103,10 @@ export default function Home() {
           <NavBar />
         </div>
 
-      <div className="error-display">
-         <Error/>
-      </div>
-       
+        <div className="error-display">
+          <Error />
+        </div>
+
         <Content>
           <LeftCol>
             <Filters>
@@ -157,22 +156,23 @@ export default function Home() {
                     </form>
                   </div>
                 </div>
-                <div>PLATFORMS</div>
+                
               </div>
             </Filters>
           </LeftCol>
+
           <RightCol>
             <TopBar>
               <PagerWrap>
-                <Pager />
+                <Pager pages={gamesState.length} />
               </PagerWrap>
               <Sorter>
                 <div>
-                  <BtnSort
+                  <BtnSort id="rating"
                     defaultValue="Sort by rating"
                     onChange={(e) => handleSortRating(e)}
                   >
-                    <option className="text" value ="Sort by rating"hidden>
+                    <option disabled hidden>
                       Sort by rating
                     </option>
                     <option value="0">0 - 5</option>
@@ -180,7 +180,7 @@ export default function Home() {
                   </BtnSort>
                 </div>
                 <div>
-                  <BtnSort
+                  <BtnSort id="name"
                     defaultValue="Sort by name"
                     onChange={(e) => handleSortName(e)}
                   >
@@ -194,7 +194,7 @@ export default function Home() {
               </Sorter>
             </TopBar>
             <CardsWrap>
-              <Cards gamesState={gamesState}/>
+              <Cards/>
             </CardsWrap>
           </RightCol>
         </Content>

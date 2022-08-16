@@ -1,32 +1,66 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
+import PageContext from "../PageContext";
 import styled from "styled-components";
 import { colors } from "../theme/variables";
 
-export default function Pager({ pager }) {
-  const [pageBtn, setPageBtn] = useState();
+export default function Pager({pages}) {
+  
+
+  const length = Math.ceil(pages / 15)
+  const [pageBtn, setPageBtn] = useState(1);
   const pageNumbers = [];
 
-  for (let i = 0; i < 9; i++) {
-    pageNumbers.push(i + 1);
+  const { changePage } = useContext(PageContext);
+
+  for (let i = 1; i < length; i++) {
+    pageNumbers.push(i);
   }
 
   function handlePager(e) {
     e.preventDefault();
     if (pageBtn) document.getElementById(pageBtn).disabled = false;
     document.getElementById(e.target.value).disabled = true;
+    console.log(e.target.value);
     setPageBtn(e.target.value);
+    changePage(e.target.value);
+  }
+
+  function handlePrevNext(e) {
+    e.preventDefault();
+
+    //if (pageBtn) document.getElementById(pageBtn).disabled = false;
+    //if (pageBtn )
+    //document.getElementById(e.target.value).disabled = true;
+
+    // console.log(e.target.value)
+    // console.log(pageBtn)
+    
+
+    // if(e.target.value === "prev" && pageBtn > 1) {
+    //   changePage(pageBtn - 1);
+    //   document.getElementById(pageBtn + 1).disabled = false;
+    //   document.getElementById(pageBtn - 1).disabled = true;
+    //   setPageBtn(pageBtn - 1);  
+    // }
+
+    // if(e.target.value === "next" && pageBtn < length) {
+    //   changePage(pageBtn + 1);
+    //   document.getElementById(pageBtn).disabled = false;
+    //   setPageBtn(pageBtn + 1);
+    //   document.getElementById(pageBtn).disabled = true;
+    // } 
   }
 
   return (
     <PagerWrap>
       <PagerNav>
-        <BtnPager key="<">{"<"}</BtnPager>
+        <BtnPager value="prev" key="prev" onClick={(e) => handlePrevNext(e)}>{"<"}</BtnPager>
         {pageNumbers.map((n) => (
           <BtnPager id={n} key={n} value={n} onClick={(e) => handlePager(e)}>
             {n}
           </BtnPager>
         ))}
-        <BtnPager key=">">{">"}</BtnPager>
+        <BtnPager value="next" key="next" onClick={(e) => handlePrevNext(e)}>{">"}</BtnPager>
       </PagerNav>
     </PagerWrap>
   );
@@ -54,12 +88,13 @@ const BtnPager = styled.button`
   font-family: VT323;
   font-size: 48px;
   border: none;
+  background-color: ${colors.grey800};
   display: inline-flex;
-    justify-content: center; /* center the content horizontally */
-    align-items: center;
+  justify-content: center; /* center the content horizontally */
+  align-items: center;
   width: 50px;
   height: 50px;
-  
+
   background-color: ${colors.white};
   &:hover {
     background-color: ${colors.grey300};

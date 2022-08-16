@@ -6,6 +6,7 @@ import { getGenres } from "../redux/actions";
 import Error from "./Error";
 import NavBar from "./NavBar";
 import "./styles.css";
+import { BtnAll, Theme } from "./styles";
 
 export default function Form() {
   const dispatch = useDispatch();
@@ -95,7 +96,12 @@ export default function Form() {
     });
   }
 
+  function handleReset() {
+    game.name = "";
+  }
+
   return (
+    <Theme>
     <div className="container">
       <div>
         <NavBar />
@@ -103,10 +109,10 @@ export default function Form() {
       <div className="error-display">
         <Error />
       </div>
-      
+
       <div className="div-container">
         <div className="header">
-          <button className="back">{"<<"}</button>
+          <BtnAll className="back">{"<<"}</BtnAll>
           <div className="add-game">ADD GAME</div>
         </div>
         <div className="div-border">
@@ -117,6 +123,7 @@ export default function Form() {
                   <div className="first-row item-group">
                     <label className="labels">Name</label>
                     <input
+                    id="name"
                       className="inputs"
                       placeholder="Enter a game name"
                       key="name"
@@ -204,9 +211,9 @@ export default function Form() {
                 </div>
               </div>
               <div>
-                <fieldset>
+                <fieldset className="fieldset">
                   <legend>Genre:</legend>
-                  <div className="fieldset">
+                  <div className="fieldset-inside">
                     {genres.map((g, i) => {
                       return (
                         <div key={g}>
@@ -231,9 +238,9 @@ export default function Form() {
                 </fieldset>
               </div>
               <div>
-                <fieldset>
+                <fieldset className="fieldset">
                   <legend>Platform:</legend>
-                  <div className="fieldset">
+                  <div className="fieldset-inside">
                     {pf.map((p, i) => {
                       return (
                         <div key={p}>
@@ -257,19 +264,23 @@ export default function Form() {
                   )}
                 </fieldset>
               </div>
-              <div>
-                <button type="submit" disabled={errorButton}>
-                  Create
-                </button>
+              <div className="button-bar">
+                
+                  <BtnAll className="button-reset" type="reset" onClick={() => handleReset()}>
+                    {'< RESET'}
+                  </BtnAll>
+                
+                
+                  <BtnAll className="button-add" type="submit" disabled={errorButton}>
+                    + ADD
+                  </BtnAll>
+                
               </div>
             </form>
-          </div>
-          <div>
-            <div></div>
-            <div>RESET</div>
           </div>
         </div>
       </div>
     </div>
+    </Theme>
   );
 }

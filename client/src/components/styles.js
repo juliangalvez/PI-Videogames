@@ -6,6 +6,7 @@ import { colors } from "../theme/variables";
 export const Theme = styled.div`
   padding: 0;
   margin: 0;
+  height: 1500px;
   background-color: #fff;
   background-image: radial-gradient(#ebebeb 1px, transparent 1px);
   background-size: 10px 10px;
@@ -24,6 +25,27 @@ export const Container = styled.div`
   
 `;
 
+export const BtnAll = styled.button`
+  transition: transform 0.2s ease;
+  
+  font-family: VT323;
+  font-size: 36px;
+  //padding: 0.6em 1.3em;
+  
+
+  border: 2px solid black;
+  border-width: 1px 3px 5px 1px;
+  border-style: solid;
+  margin-right: 20px;
+  &:hover {
+    transition: transform 0.1s ease;
+    transform: translate(-0.06em, -0.06em);
+  }
+
+  &:active {
+    transform: translate(0em, 0em);
+  }
+`;
 export const BtnMain = styled.button`
   transition: transform 0.2s ease;
   background-color: ${colors.yellow};

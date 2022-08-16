@@ -7,19 +7,16 @@ const { Op } = require("sequelize");
 const { API_KEY } = process.env;
 const { aB, validator } = require("../js/modules");
 
+const url = `https://api.rawg.io/api/games?key=${API_KEY}`;
 
 // HOME
 router.get("/", async (req, res) => {
+  console.log("entra");
   if (req.query.name) {
     const { name } = req.query;
     try {
-      const result = (
-        await axios.get(
-          `https://api.rawg.io/api/games?search=${name}&key=${API_KEY}`
-        )
-      ).data.results;
+      const result = (await axios.get(`${dir}&search=${name}`)).data.results;
 
-      
       const searchApi = result.map((game) => {
         const obj = {
           id: game.id,
@@ -62,25 +59,42 @@ router.get("/", async (req, res) => {
       res.status(400).send(`${name}, not found`);
     }
   } else {
-    // 
+    //
     try {
-                        // 1RS PAGE GET
-      const result = (
-        await axios.get(`https://api.rawg.io/api/games?key=${API_KEY}`)
-      ).data.results;
+      let apiGamesFormat = {};
+      let allApiGames = [];
 
-      const apiGamesFormat = result.map((game) => {
-        const obj = {
-          id: game.id,
-          name: game.name,
-          image: game.background_image,
-          rating: game.rating,
-          genres: game.genres.map((g) => g.name).sort(aB),
-        };
-        return obj;
-      });
-                        //  1RS PAGE GET -- END
-                        
+      try {
+        let data = (await axios.get(`${url}`)).data;
+        let page = 0;
+
+        while (page < 5) {
+          try {
+            apiGamesFormat = data.results.map((game) => {
+              const obj = {
+                id: game.id,
+                name: game.name,
+                image: game.background_image,
+                rating: game.rating,
+                genres: game.genres.map((g) => g.name).sort(aB),
+              };
+              return obj;
+            });
+
+            allApiGames.push(apiGamesFormat);
+
+            data = (await axios.get(data.next)).data;
+            page++;
+
+          } catch (error) {
+            res.status(400).send("Can't retrieve games from api");
+          }
+        }
+          
+      } catch (error) {
+        res.status(400).send("Can't retrieve games from api");
+      }
+
       const dbGames = await Videogame.findAll({ include: [{ model: Genre }] });
 
       const dbGamesFormat = JSON.parse(JSON.stringify(dbGames)).map((e) => {
@@ -95,11 +109,31 @@ router.get("/", async (req, res) => {
           genres: e.genres.map((g) => g.name).sort(aB),
         };
       });
-       const all = [...dbGamesFormat, ...apiGamesFormat];
-      //const all = [...dbGamesFormat];
+      //const all = [...dbGamesFormat, ...allApiGames.flat()];
+      const all = [...dbGamesFormat, ...allApiGames.flat()];
+      // let allGamesPaged = [];
+      
+      // const p = 15;
+
+      // function pager(a,b) {
+      //   console.log(p+" ",a+" ",b)
+
+      //   let aux = all.slice(a,b)
+      //   if(aux.length) {
+      //     allGamesPaged.push(aux);
+      //   } else {
+      //     return allGamesPaged
+      //   }
+      //   return pager(a+p,b+p)
+      // }
+
+      // pager(0,15);
+
+      //console.log(allGamesPaged)
+      //console.log(allGamesPaged.length)
       res.status(200).json(all);
     } catch (error) {
-      console.log(error)
+      console.log(error);
       res.status(400).send("Can't retrieve games from api");
     }
   }
@@ -108,7 +142,7 @@ router.get("/", async (req, res) => {
 // DETAILS
 router.get("/:id", async (req, res) => {
   const { id } = req.params;
-
+  
   if (id.length > 6) {
     try {
       const gameId = await Videogame.findByPk(id, {
@@ -142,10 +176,13 @@ router.get("/:id", async (req, res) => {
         name: gameId.name,
         image: gameId.background_image,
         genres: gameId.genres.map((g) => g.name).sort(aB),
-        description: gameId.description,
+        description: gameId.description_raw,
         released: gameId.released,
         rating: gameId.rating,
         platforms: gameId.platforms.map((p) => p.platform.name).sort(aB),
+        metacritic: gameId.metacritic,
+        developers: gameId.developers.map((d) => d.name).sort(aB),
+        esrb: gameId.esrb_rating.name
       };
 
       return res.send(obj);
