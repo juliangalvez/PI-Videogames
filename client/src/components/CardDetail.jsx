@@ -28,66 +28,71 @@ export default function CardDetail() {
           <div className="error-display">
             <Error />
           </div>
-
-          <div>
-            {gameDetail && <div className="detail-container">
-            <div className="title">
-              <h3>{gameDetail.name}</h3>
-            </div>
-            <div className="image">
-              <img src={gameDetail.image} alt="img" width="700px" />
-            </div>
-            <div className="details">
-              <div className="left-col">
-                <div className="genres-detail">
-                  <h1>
-                    {gameDetail.genres
-                      ? gameDetail.genres.map((g) => (
-                          <div className="genre-item" key={g}>
-                            {g}
-                          </div>
-                        ))
-                      : null}
-                  </h1>
+          {gameDetail.name ? (
+            <div>
+              <div className="detail-container">
+                <div className="title">
+                  <h3>{gameDetail.name}</h3>
                 </div>
-                <div className="description">
-                  <h2>{gameDetail.description}</h2>
+                <div className="image">
+                  <img src={gameDetail.image} alt="img" width="700px" />
+                </div>
+                <div className="details">
+                  <div className="left-col">
+                    <div className="genres-detail">
+                      <h1>
+                        {gameDetail.genres
+                          ? gameDetail.genres.map((g) => (
+                              <div className="genre-item" key={g}>
+                                {g}
+                              </div>
+                            ))
+                          : null}
+                      </h1>
+                    </div>
+                    <div className="description">
+                      <h2>{gameDetail.description}</h2>
+                    </div>
+                  </div>
+                  <div className="right-col">
+                    <div className="rating-detail">
+                      <img className="ico" src={ico} alt="i" />
+                      <div>
+                        {gameDetail.rating ? gameDetail.rating : "-  -"}
+                      </div>
+                    </div>
+
+                    <div className="meta">
+                      <div>Metascore</div>
+                      <div className="meta-rating">{gameDetail.metacritic}</div>
+                    </div>
+                    <div className="esrb">
+                      <div>ESRB RATING</div>
+                      <div className="esrb-rating">{gameDetail.esrb}</div>
+                    </div>
+                    <div className="right-info">
+                      <div className="release">{gameDetail.released}</div>
+                      <div className="devs">
+                        {gameDetail.developers
+                          ? gameDetail.developers.map((g) => (
+                              <div key={g}>{g}</div>
+                            ))
+                          : null}
+                      </div>
+                      <div className="right-spacer">.........</div>
+                      <div className="platforms">
+                        {gameDetail.platforms
+                          ? gameDetail.platforms.map((g) => (
+                              <div key={g}>{g}</div>
+                            ))
+                          : <h2>Loading...</h2>}
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
-              <div className="right-col">
-                <div className="rating-detail">
-                  <img className="ico" src={ico} alt="i" />
-                  <div>{gameDetail.rating ? gameDetail.rating : "-  -"}</div>
-                </div>
-
-                <div className="meta">
-                  <div>Metascore</div>
-                  <div className="meta-rating">{gameDetail.metacritic}</div>
-                </div>
-                <div className="esrb">
-                  <div>ESRB RATING</div>
-                  <div className="esrb-rating">{gameDetail.esrb}</div>
-                </div>
-                <div className="right-info">
-                  <div className="release">{gameDetail.released}</div>
-                  <div className="devs">
-                    {gameDetail.developers
-                      ? gameDetail.developers.map((g) => <div key={g}>{g}</div>)
-                      : null}
-                  </div>
-                  <div className="right-spacer">.........</div>
-                  <div className="platforms">
-                    {gameDetail.platforms
-                      ? gameDetail.platforms.map((g) => <div key={g}>{g}</div>)
-                      : null}
-                  </div>
-                </div>
-              </div>
             </div>
-          </div>}
-          </div>
-
-          
+          ) : null}
         </div>
       </Theme>
     </>

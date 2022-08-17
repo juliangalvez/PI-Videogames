@@ -22,7 +22,7 @@ export default function Card({ name, image, rating, genres, platforms }) {
           ))}
         </div>
         <div className="rating">
-          <div>{rating ? rating : '-  -'}</div>
+          <div>{rating ? rating : "-  -"}</div>
 
           <img className="ico" src={ico} alt="i" />
         </div>
@@ -42,6 +42,14 @@ const CardWrap = styled.div`
   border: solid black;
   border-width: 1px 3px 5px 1px;
   position: relative;
+  &:hover {
+    transition: transform 0.1s ease;
+    transform: translate(-0.08em, -0.1em);
+  }
+
+  &:active {
+    transform: translate(0em, 0em);
+  }
 
   .name {
     display: flex;

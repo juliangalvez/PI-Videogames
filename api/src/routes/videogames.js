@@ -15,7 +15,8 @@ router.get("/", async (req, res) => {
   if (req.query.name) {
     const { name } = req.query;
     try {
-      const result = (await axios.get(`${dir}&search=${name}`)).data.results;
+      console.log("search")
+      const result = (await axios.get(`${url}&search=${name}`)).data.results;
 
       const searchApi = result.map((game) => {
         const obj = {
@@ -27,7 +28,7 @@ router.get("/", async (req, res) => {
         };
         return obj;
       });
-
+      console.log(searchApi)
       const dbGames = await Videogame.findAll({
         where: {
           name: {
@@ -49,7 +50,7 @@ router.get("/", async (req, res) => {
           genres: e.genres.map((g) => g.name).sort(aB),
         };
       });
-
+      console.log("all")
       const all = [...searchDb, ...searchApi];
       all.splice(15);
       if (!all.length) return res.status(400).send(`${name}, not found`);
@@ -109,28 +110,8 @@ router.get("/", async (req, res) => {
           genres: e.genres.map((g) => g.name).sort(aB),
         };
       });
-      //const all = [...dbGamesFormat, ...allApiGames.flat()];
-      const all = [...dbGamesFormat, ...allApiGames.flat()];
-      // let allGamesPaged = [];
       
-      // const p = 15;
-
-      // function pager(a,b) {
-      //   console.log(p+" ",a+" ",b)
-
-      //   let aux = all.slice(a,b)
-      //   if(aux.length) {
-      //     allGamesPaged.push(aux);
-      //   } else {
-      //     return allGamesPaged
-      //   }
-      //   return pager(a+p,b+p)
-      // }
-
-      // pager(0,15);
-
-      //console.log(allGamesPaged)
-      //console.log(allGamesPaged.length)
+      const all = [...dbGamesFormat, ...allApiGames.flat()];
       res.status(200).json(all);
     } catch (error) {
       console.log(error);
@@ -142,7 +123,7 @@ router.get("/", async (req, res) => {
 // DETAILS
 router.get("/:id", async (req, res) => {
   const { id } = req.params;
-  
+
   if (id.length > 6) {
     try {
       const gameId = await Videogame.findByPk(id, {

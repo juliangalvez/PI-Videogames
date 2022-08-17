@@ -31,7 +31,6 @@ let initialState = {
 export default function rootReducer(state = initialState, action) {
   switch (action.type) {
     case GET_GAMES:
-      console.log(action.payload.length)
       return {
         ...state,
         allGames: action.payload,
@@ -71,7 +70,7 @@ export default function rootReducer(state = initialState, action) {
       if (action.payload === "created") {
         createdFiltered = allContent.filter((f) => f.id.length > 7);
       }
-      
+
       return {
         ...state,
         searchResult: [],
@@ -135,8 +134,6 @@ export default function rootReducer(state = initialState, action) {
         ...state,
         games: sortRating,
       };
-
-      
 
     case ERROR_HANDLER:
       let error = "";

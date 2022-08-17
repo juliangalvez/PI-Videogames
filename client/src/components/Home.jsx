@@ -32,6 +32,7 @@ import {
 
 export default function Home() {
   let gamesState = useSelector((state) => state.games);
+  let allGames = useSelector((state) => state.allGames);
   let genres = useSelector((state) => state.genres);
 
   const dispatch = useDispatch();
@@ -42,9 +43,10 @@ export default function Home() {
   const [doOnce, setDoOnce] = useState(false);
 
   useEffect(() => {
-    dispatch(getGames());
+    if (!allGames.length > 0) dispatch(getGames());
+
     dispatch(errorHandler(""));
-  }, [dispatch]);
+  }, [dispatch, allGames]);
 
   useEffect(() => {}, [order]);
   useEffect(() => {
@@ -156,7 +158,6 @@ export default function Home() {
                     </form>
                   </div>
                 </div>
-                
               </div>
             </Filters>
           </LeftCol>
@@ -168,7 +169,8 @@ export default function Home() {
               </PagerWrap>
               <Sorter>
                 <div>
-                  <BtnSort id="rating"
+                  <BtnSort
+                    id="rating"
                     defaultValue="Sort by rating"
                     onChange={(e) => handleSortRating(e)}
                   >
@@ -180,7 +182,8 @@ export default function Home() {
                   </BtnSort>
                 </div>
                 <div>
-                  <BtnSort id="name"
+                  <BtnSort
+                    id="name"
                     defaultValue="Sort by name"
                     onChange={(e) => handleSortName(e)}
                   >
@@ -194,11 +197,11 @@ export default function Home() {
               </Sorter>
             </TopBar>
             <CardsWrap>
-              <Cards/>
+              <Cards />
             </CardsWrap>
           </RightCol>
         </Content>
-        <div>FOOTER</div>
+       
       </Container>
     </Theme>
   );

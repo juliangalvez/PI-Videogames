@@ -1,5 +1,6 @@
 import axios from "axios";
 import { React, useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { pf, validate, validator } from "../js/modules";
 import { getGenres } from "../redux/actions";
@@ -26,6 +27,7 @@ export default function Form() {
     platforms: [],
   });
 
+  const [msj, setMsj] = useState("");
   const [formErr, setformErr] = useState({});
   const [errorButton, setErrorButton] = useState(true);
 
@@ -94,193 +96,215 @@ export default function Form() {
       genres: [],
       platforms: [],
     });
+
+    setMsj("The game has been added successfully");
+    setTimeout(() => {
+      setMsj("");
+    }, 4000);
   }
 
   function handleReset() {
-    game.name = "";
+    setGame({
+      name: "",
+      description: "",
+      image: "",
+      released: "",
+      rating: "",
+      genres: [],
+      platforms: [],
+    });
   }
 
   return (
     <Theme>
-    <div className="container">
-      <div>
-        <NavBar />
-      </div>
-      <div className="error-display">
-        <Error />
-      </div>
-
-      <div className="div-container">
-        <div className="header">
-          <BtnAll className="back">{"<<"}</BtnAll>
-          <div className="add-game">ADD GAME</div>
+      <div className="container">
+        <div>
+          <NavBar />
         </div>
-        <div className="div-border">
-          <div>
-            <form onSubmit={handleSubmit}>
-              <div className="text">
-                <div className="first-row">
-                  <div className="first-row item-group">
-                    <label className="labels">Name</label>
-                    <input
-                    id="name"
-                      className="inputs"
-                      placeholder="Enter a game name"
-                      key="name"
-                      name="name"
-                      value={game.name}
-                      onBlur={handleValidate}
-                      onChange={handleChange}
-                    ></input>
-                    {formErr.name ? (
-                      <h4 className="h4">{formErr.name}</h4>
-                    ) : (
-                      false
-                    )}
+        <div className="error-display">
+          <Error />
+          <div className="msj">{msj ? <h2>{msj}</h2> : null}</div>
+        </div>
+
+        <div className="div-container">
+          <div className="header">
+            <Link to="/videogames" className="links">
+              <BtnAll className="back">{"<<"}</BtnAll>
+            </Link>
+
+            <div className="add-game">ADD GAME</div>
+          </div>
+          <div className="div-border">
+            <div>
+              <form onSubmit={handleSubmit}>
+                <div className="text">
+                  <div className="first-row">
+                    <div className="first-row item-group">
+                      <label className="labels">Name</label>
+                      <input
+                        id="name"
+                        className="inputs"
+                        placeholder="Enter a game name"
+                        key="name"
+                        name="name"
+                        value={game.name}
+                        onBlur={handleValidate}
+                        onChange={handleChange}
+                      ></input>
+                      {formErr.name ? (
+                        <h4 className="h4">{formErr.name}</h4>
+                      ) : (
+                        false
+                      )}
+                    </div>
+                    <div className="first-row item-group">
+                      <label className="labels">Description</label>
+                      <textarea
+                        type="text"
+                        rows="6"
+                        placeholder="Enter a description"
+                        className="inputs item-desc"
+                        key="description"
+                        name="description"
+                        value={game.description}
+                        onBlur={handleValidate}
+                        onChange={handleChange}
+                      ></textarea>
+                      {formErr.description ? (
+                        <h4 className="h4">{formErr.description}</h4>
+                      ) : (
+                        false
+                      )}
+                    </div>
                   </div>
-                  <div className="first-row item-group">
-                    <label className="labels">Description</label>
-                    <textarea
-                      type="text"
-                      rows="6"
-                      placeholder="Enter a description"
-                      className="inputs item-desc"
-                      key="description"
-                      name="description"
-                      value={game.description}
-                      onBlur={handleValidate}
-                      onChange={handleChange}
-                    ></textarea>
-                    {formErr.description ? (
-                      <h4 className="h4">{formErr.description}</h4>
-                    ) : (
-                      false
-                    )}
+
+                  <div className="second-row">
+                    <div className="second-row item-image">
+                      <label className="labels">Image</label>
+                      <input
+                        className="inputs"
+                        placeholder="http://example.png"
+                        key="image"
+                        name="image"
+                        value={game.image}
+                        onBlur={handleValidate}
+                        onChange={handleChange}
+                      ></input>
+                    </div>
+
+                    <div className="second-row item-rel">
+                      <label className="labels">Released</label>
+                      <input
+                        className="inputs"
+                        key="released"
+                        type="date"
+                        name="released"
+                        value={game.released}
+                        onBlur={handleValidate}
+                        onChange={handleChange}
+                      ></input>
+                      {formErr.released ? (
+                        <h4 className="h4">{formErr.released}</h4>
+                      ) : (
+                        false
+                      )}
+                    </div>
+
+                    <div className="second-row item-group">
+                      <label className="labels">Rating</label>
+                      <input
+                        className="inputs"
+                        placeholder="Enter a value between 0 and 5"
+                        key="rating"
+                        name="rating"
+                        value={game.rating}
+                        onBlur={handleValidate}
+                        onChange={handleChange}
+                      ></input>
+                      {formErr.rating ? (
+                        <h4 className="h4">{formErr.rating}</h4>
+                      ) : (
+                        false
+                      )}
+                    </div>
                   </div>
                 </div>
-
-                <div className="second-row">
-                  <div className="second-row item-image">
-                    <label className="labels">Image</label>
-                    <input
-                      className="inputs"
-                      placeholder="http://example.png"
-                      key="image"
-                      name="image"
-                      value={game.image}
-                      onBlur={handleValidate}
-                      onChange={handleChange}
-                    ></input>
-                  </div>
-
-                  <div className="second-row item-rel">
-                    <label className="labels">Released</label>
-                    <input
-                      className="inputs"
-                      key="released"
-                      type="date"
-                      name="released"
-                      value={game.released}
-                      onBlur={handleValidate}
-                      onChange={handleChange}
-                    ></input>
-                    {formErr.released ? (
-                      <h4 className="h4">{formErr.released}</h4>
-                    ) : (
-                      false
-                    )}
-                  </div>
-
-                  <div className="second-row item-group">
-                    <label className="labels">Rating</label>
-                    <input
-                      className="inputs"
-                      placeholder="Enter a value between 0 and 5"
-                      key="rating"
-                      name="rating"
-                      value={game.rating}
-                      onBlur={handleValidate}
-                      onChange={handleChange}
-                    ></input>
+                <div>
+                  <fieldset className="fieldset">
+                    <legend>Genre:</legend>
+                    <div className="fieldset-inside">
+                      {genres.map((g, i) => {
+                        return (
+                          <div key={g}>
+                            <input
+                              type="checkbox"
+                              name={g}
+                              value={i + 1}
+                              onBlur={handleValidate}
+                              onChange={handleGenres}
+                              key={i}
+                            ></input>
+                            <label>{g}</label>
+                          </div>
+                        );
+                      })}
+                    </div>
                     {formErr.rating ? (
-                      <h4 className="h4">{formErr.rating}</h4>
+                      <h4 className="h4">{formErr.genres}</h4>
                     ) : (
                       false
                     )}
-                  </div>
+                  </fieldset>
                 </div>
-              </div>
-              <div>
-                <fieldset className="fieldset">
-                  <legend>Genre:</legend>
-                  <div className="fieldset-inside">
-                    {genres.map((g, i) => {
-                      return (
-                        <div key={g}>
-                          <input
-                            type="checkbox"
-                            name={g}
-                            value={i + 1}
-                            onBlur={handleValidate}
-                            onChange={handleGenres}
-                            key={i}
-                          ></input>
-                          <label>{g}</label>
-                        </div>
-                      );
-                    })}
-                  </div>
-                  {formErr.rating ? (
-                    <h4 className="h4">{formErr.genres}</h4>
-                  ) : (
-                    false
-                  )}
-                </fieldset>
-              </div>
-              <div>
-                <fieldset className="fieldset">
-                  <legend>Platform:</legend>
-                  <div className="fieldset-inside">
-                    {pf.map((p, i) => {
-                      return (
-                        <div key={p}>
-                          <input
-                            type="checkbox"
-                            name={p}
-                            value={p}
-                            onBlur={handleValidate}
-                            onChange={handlePlatforms}
-                            key={i}
-                          ></input>
-                          <label>{p}</label>
-                        </div>
-                      );
-                    })}
-                  </div>
-                  {formErr.rating ? (
-                    <h4 className="h4">{formErr.platforms}</h4>
-                  ) : (
-                    false
-                  )}
-                </fieldset>
-              </div>
-              <div className="button-bar">
-                
-                  <BtnAll className="button-reset" type="reset" onClick={() => handleReset()}>
-                    {'< RESET'}
+                <div>
+                  <fieldset className="fieldset">
+                    <legend>Platform:</legend>
+                    <div className="fieldset-inside">
+                      {pf.map((p, i) => {
+                        return (
+                          <div key={p}>
+                            <input
+                              type="checkbox"
+                              name={p}
+                              value={p}
+                              onBlur={handleValidate}
+                              onChange={handlePlatforms}
+                              key={i}
+                            ></input>
+                            <label>{p}</label>
+                          </div>
+                        );
+                      })}
+                    </div>
+                    {formErr.rating ? (
+                      <h4 className="h4">{formErr.platforms}</h4>
+                    ) : (
+                      false
+                    )}
+                  </fieldset>
+                </div>
+                <div className="button-bar">
+                  <BtnAll
+                    className="button-reset"
+                    type="reset"
+                    onClick={() => handleReset()}
+                  >
+                    {"< RESET"}
                   </BtnAll>
-                
-                
-                  <BtnAll className="button-add" type="submit" disabled={errorButton}>
+
+                  <BtnAll
+                    className="button-add"
+                    type="submit"
+                    disabled={errorButton}
+                  >
                     + ADD
                   </BtnAll>
-                
-              </div>
-            </form>
+                </div>
+              </form>
+            </div>
           </div>
         </div>
       </div>
-    </div>
     </Theme>
   );
 }

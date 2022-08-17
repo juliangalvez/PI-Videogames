@@ -8,7 +8,7 @@ import {
   FILTER_ORIGIN,
   SORT_BY_NAME,
   SORT_BY_RATING,
-  ERROR_HANDLER
+  ERROR_HANDLER,
 } from "./constants";
 
 export const getGames = () => {
@@ -18,7 +18,6 @@ export const getGames = () => {
       dispatch({ type: GET_GAMES, payload: apiGet.data });
     } catch (error) {
       dispatch({ type: "ERROR_HANDLER", payload: error.response.data });
-      console.log(error.response.data);
     }
   };
 };
@@ -32,9 +31,12 @@ export const getGenres = () => {
 
 export const getGameDetail = (id) => {
   return async (dispatch) => {
-    let apiGet = await axios.get(`http://localhost:3001/videogames/${id}`);
-    console.log(apiGet.data);
-    dispatch({ type: GET_GAME_DETAIL, payload: apiGet.data });
+    try {
+      let apiGet = await axios.get(`http://localhost:3001/videogames/${id}`);
+      dispatch({ type: GET_GAME_DETAIL, payload: apiGet.data });
+    } catch (error) {
+      dispatch({ type: "ERROR_HANDLER", payload: error.response.data });
+    }
   };
 };
 
@@ -44,7 +46,6 @@ export const searchGame = (name) => {
       let apiGet = await axios.get(
         `http://localhost:3001/videogames?name=${name}`
       );
-      console.log(apiGet.data);
       dispatch({ type: GET_SEARCH, payload: apiGet.data });
     } catch (error) {
       dispatch({ type: ERROR_HANDLER, payload: error.response.data });
@@ -86,13 +87,3 @@ export function errorHandler(payload) {
     payload,
   };
 }
-
-// export function searchGame(name) {
-//   return function (dispatch) {
-//     return fetch(`http://localhost:3001/videogames/${name}`)
-//       .then((res) => res.json())
-//       .then((json) => {
-//         dispatch({ type: "GET_SEARCH", payload: json });
-//       });
-//   };
-// }

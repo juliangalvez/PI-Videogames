@@ -12,7 +12,7 @@ function NavBar() {
 
   function handleClick() {
     dispatch(getGames());
-    dispatch(errorHandler(""))
+    dispatch(errorHandler(""));
   }
 
   return (

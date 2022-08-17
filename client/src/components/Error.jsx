@@ -9,14 +9,15 @@ export default function Error() {
   const dispatch = useDispatch();
   if (!error.length) return null;
 
-  
-  setTimeout(() => {                     
+  setTimeout(() => {
     dispatch(errorHandler(""));
   }, 5000);
 
   return (
     <>
-      <ErrorDisplay><div className="error">{error}</div></ErrorDisplay>
+      <ErrorDisplay>
+        <div className="error">{error}</div>
+      </ErrorDisplay>
     </>
   );
 }
@@ -27,23 +28,17 @@ const ErrorDisplay = styled.div`
   align-items: center;
   min-height: 100px;
   height: 100px;
-  //transition: transform 0.2s ease;
 
-  .error{
-    //transition: transform 0.2s ease;
-  color: red;
-
-  justify-content: center;
-  align-items: center;
-  padding-bottom: 4px;
-  font-size: 30px;
-  padding-left: 10px;
-  padding-right: 10px;
-  //height: 40px;
-  background-color: rgba(255, 0, 0, 0.2);
-  border: solid 1px red;
+  .error {
+    color: red;
+    justify-content: center;
+    align-items: center;
+    padding-bottom: 4px;
+    font-size: 30px;
+    padding-left: 10px;
+    padding-right: 10px;
+    //height: 40px;
+    background-color: rgba(255, 0, 0, 0.2);
+    border: solid 1px red;
   }
-  
 `;
-
-

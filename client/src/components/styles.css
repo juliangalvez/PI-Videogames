@@ -21,6 +21,10 @@
   height: 100px;
 }
 
+.msj{
+    text-align: center;
+}
+
 .header {
   display: flex;
   flex-direction: row;
@@ -337,4 +341,182 @@
   font-size: 24px;
   text-align: center;
   padding: 15px;
+}
+
+/* Landing */
+
+.background-land {
+    display: flex;
+  padding: 0px;
+  margin: 0px;
+  height: 1600px;
+  background-position: top;
+  background-color: #b5bcbc;
+}
+
+.landing-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  width: 270px;
+  height: 420px;
+  margin: auto;
+  margin-top: 200px;
+  border: solid black;
+  border-width: 1px 3px 5px 1px;
+  background-color: #fff;
+}
+
+.button-sel {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+.labels {
+  display: flex;
+  font-size: 24px;
+  margin: 5px;
+}
+
+.logo-land {
+  margin-top: 50px;
+}
+
+.power {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+input[type="checkbox"].toggle {
+  opacity: 0;
+  position: absolute;
+  left: -9000px;
+  top: -9000px;
+}
+
+input[type="checkbox"].toggle + label {
+  position: relative;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+input[type="checkbox"].toggle + label::before {
+  content: "";
+  width: 1.8em;
+  height: 1.1em;
+  background-color: #d9d9d9;
+  margin-right: 0.25em;
+  border: 1px solid #b6b6b6;
+}
+
+input[type="checkbox"].toggle + label::after {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  content: "";
+  font-size: 0.5em;
+  height: 0.9em;
+  left: 0.3em;
+  width: 1.6em;
+  height: 1.6em;
+  background-color: #0a1019;
+  color: white;
+  transition: background-color 200ms ease-in-out, transform 200ms ease-in-out;
+}
+
+input[type="checkbox"].toggle:checked + label::after {
+  content: "";
+  transform: translateX(100%);
+}
+
+input[type="checkbox"].toggle:disabled + label {
+  color: #777;
+}
+
+input[type="checkbox"].toggle:disabled + label::before {
+  background-color: #ccc;
+}
+
+input[type="checkbox"].toggle:disabled + label::after {
+  background-color: #777;
+}
+
+.display {
+  background-color: #b5bcbc;
+  border: 1px solid #a5aaaa;
+  width: 183px;
+  height: 41px;
+  margin-bottom: 20px;
+  position: relative;
+}
+.display-img {
+  padding: 9px 9px 9px 11px;
+  position: absolute;
+  z-index: 0;
+}
+
+.loading-txt {
+  padding: 9px 9px 9px 11px;
+  position: absolute;
+  z-index: 1;
+  font-size: 32px;
+  font-weight: 400;
+  line-height: 18px;
+  letter-spacing: 0.115em;
+  text-align: left;
+}
+
+.loader-dots {
+  z-index: 2;
+  --bgcolor: #00000033 20px, transparent 0;
+  --loadercolor: #0a1019 20px, transparent 0;
+  width: 140px;
+  height: 20px;
+  background-image: linear-gradient(var(--bgcolor)),
+    linear-gradient(var(--bgcolor)), linear-gradient(var(--bgcolor)),
+    linear-gradient(var(--bgcolor));
+  background-repeat: no-repeat;
+  background-size: 4px 4px;
+  background-position: 0 0, 12px 0, 22px 0;
+  animation: loaderfill 1s linear infinite;
+  position: absolute;
+  margin-top: 24px;
+  margin-left: 125px;
+}
+
+@keyframes loaderfill {
+  0% {
+    background-image: linear-gradient(var(--bgcolor)),
+      linear-gradient(var(--bgcolor)), linear-gradient(var(--bgcolor)),
+      linear-gradient(var(--bgcolor));
+  }
+
+  25% {
+    background-image: linear-gradient(var(--loadercolor)),
+      linear-gradient(var(--bgcolor)), linear-gradient(var(--bgcolor)),
+      linear-gradient(var(--bgcolor));
+  }
+
+  50% {
+    background-image: linear-gradient(var(--loadercolor)),
+      linear-gradient(var(--loadercolor)), linear-gradient(var(--bgcolor)),
+      linear-gradient(var(--bgcolor));
+  }
+
+  75% {
+    background-image: linear-gradient(var(--loadercolor)),
+      linear-gradient(var(--loadercolor)), linear-gradient(var(--loadercolor)),
+      linear-gradient(var(--bgcolor));
+  }
+
+  100% {
+    background-image: linear-gradient(var(--loadercolor)),
+      linear-gradient(var(--loadercolor)), linear-gradient(var(--loadercolor)),
+      linear-gradient(var(--loadercolor));
+  }
 }
