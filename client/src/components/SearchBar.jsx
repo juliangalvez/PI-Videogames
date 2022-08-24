@@ -50,10 +50,13 @@ const FinderArea = styled.div`
   flex-direction: row;
   justify-content: space-between;
   width: 540px;
+  
   .find-button-div {
     background: black;
     width: 60px;
     height: 61px;
+    border-radius: 7px;
+    
   }
 `;
 
@@ -67,7 +70,7 @@ const SearchInput = styled.input`
   color: ${colors.grey800};
   background-color: ${colors.sky};
   padding-left: 20px;
-
+  border-radius: 7px;
   &:hover {
     background-color: ${colors.grey300};
     color: ${colors.grey800};
@@ -89,6 +92,7 @@ const SearchBtn = styled.button`
   border: solid black;
   border-width: 1px 3px 5px 1px;
   background-color: ${colors.sky};
+  border-radius: 7px;
   &:hover {
     transition: transform 0.1s ease;
     transform: translate(-0.06em, -0.06em);

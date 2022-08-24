@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
-import { getGameDetail } from "../redux/actions";
+import { getGameDetail, cleanDetail } from "../redux/actions";
 import NavBar from "./NavBar";
 import Error from "./Error";
 import { Theme } from "./styles";
@@ -14,8 +14,11 @@ export default function CardDetail() {
   const dispatch = useDispatch();
   const { id } = useParams();
 
+  
+
   useEffect(() => {
     dispatch(getGameDetail(id));
+    return dispatch(cleanDetail())
   }, [dispatch, id]);
 
   return (

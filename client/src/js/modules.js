@@ -91,7 +91,6 @@ module.exports = {
     else return false;
     if (data.genres.length > 0) v = true;
     else return false;
-    console.log(v)
     return v;
   },
 };

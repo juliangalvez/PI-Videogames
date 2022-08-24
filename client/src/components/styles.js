@@ -8,7 +8,7 @@ export const Theme = styled.div`
   margin: 0;
   height: 1500px;
   background-color: #fff;
-  background-image: radial-gradient(#ebebeb 1px, transparent 1px);
+  background-image: radial-gradient(${colors.grey400} 1px, transparent 1px);
   background-size: 10px 10px;
 `;
 
@@ -19,20 +19,19 @@ export const Container = styled.div`
   max-width: 1300px;
   margin: 0 auto;
 
-  .error-display{
+  .error-display {
     height: 100px;
   }
-  
 `;
 
 export const BtnAll = styled.button`
   transition: transform 0.2s ease;
-  
+
   font-family: VT323;
   font-size: 36px;
   //padding: 0.6em 1.3em;
-  
 
+  border-radius: 7px;
   border: 2px solid black;
   border-width: 1px 3px 5px 1px;
   border-style: solid;
@@ -54,7 +53,7 @@ export const BtnMain = styled.button`
   //padding: 0.6em 1.3em;
   width: 136px;
   height: 61px;
-
+  border-radius: 7px;
   border: 2px solid black;
   border-width: 1px 3px 5px 1px;
   border-style: solid;
@@ -121,13 +120,14 @@ export const BtnAdd = styled.button`
   background-color: ${colors.violet};
   font-family: VT323;
   font-size: 36px;
+  border-radius: 7px;
   //padding: 0.6em 1.3em;
   width: 188px;
   height: 61px;
   border: solid black;
   border-width: 1px 3px 5px 1px;
-
   margin-right: 20px;
+
   &:hover {
     transition: transform 0.1s ease;
     transform: translate(-0.06em, -0.06em);
@@ -147,12 +147,10 @@ export const BtnSort = styled.select`
   width: 150px;
   height: 61px;
   border: solid black;
-
+  border-radius: 7px;
   border-width: 1px 3px 5px 1px;
   text-align: center;
-  
   white-space: pre-wrap;
-  // width:auto;
   line-height: 1.6;
   margin-left: 20px;
 `;
@@ -165,9 +163,11 @@ export const Content = styled.div`
 `;
 
 export const LeftCol = styled.div`
-  width: 180px;
+  width: 160px;
   border-style: solid;
   background-color: white;
+  border-radius: 7px;
+  margin-right: 10px;
 `;
 
 export const RightCol = styled.div`
@@ -192,6 +192,7 @@ export const Filters = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-around;
+
   .pepito {
     background-color: red;
   }
@@ -210,9 +211,25 @@ export const Filters = styled.div`
     }
   }
   .genres {
+    .genre-filter {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+    }
     .genres-title {
       font-weight: bold;
       margin-bottom: 10px;
+    }
+    .erase-filter-btn {
+      font-family: VT323;
+      font-size: 20px;
+      width: 24px;
+      height: 24px;
+      color: #fff;
+      background-color: ${colors.grey800};
+      border: none;
+      margin-right: 10px;
+      cursor: pointer;
     }
     .genres-map {
       display: flex;

@@ -111,6 +111,7 @@ router.get("/", async (req, res) => {
         };
       });
       
+      //const all = [...dbGamesFormat];
       const all = [...dbGamesFormat, ...allApiGames.flat()];
       res.status(200).json(all);
     } catch (error) {

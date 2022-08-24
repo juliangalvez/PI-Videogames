@@ -119,6 +119,13 @@ export default function rootReducer(state = initialState, action) {
         games: sortName,
       };
 
+      case 'clean':
+          
+
+      return {
+        ...state,
+        game: [],
+      };
     case SORT_BY_RATING:
       content = state.games;
 

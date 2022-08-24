@@ -5,36 +5,41 @@ import ico from "../img/Star.png";
 
 export default function Card({ name, image, rating, genres, platforms }) {
   return (
-    <CardWrap>
-      <div className="name">
-        <p>{name}</p>
-      </div>
-
-      <div className="img">
-        <img className="image" src={image} alt="img" />
-      </div>
-      <div className="card-bottom">
-        <div className="genres">
-          {genres.map((g) => (
-            <div key={g} className="genres-items">
-              {g}
-            </div>
-          ))}
+    <>
+      <div className="black-div"></div>
+      <CardWrap>
+        <div className="name">
+          <p>{name}</p>
         </div>
-        <div className="rating">
-          <div>{rating ? rating : "-  -"}</div>
 
-          <img className="ico" src={ico} alt="i" />
+        <div className="img">
+          <img className="image" src={image} alt="img" />
         </div>
-      </div>
-    </CardWrap>
+        <div className="card-bottom">
+          <div className="genres">
+            {genres.map((g) => (
+              <div key={g} className="genres-items">
+                {g}
+              </div>
+            ))}
+          </div>
+          <div className="rating">
+            <div>{rating ? rating : "-  -"}</div>
+
+            <img className="ico" src={ico} alt="i" />
+          </div>
+        </div>
+      </CardWrap>
+    </>
   );
 }
 
 const CardWrap = styled.div`
+  transition: transform 0.2s ease;
   display: flex;
   flex-direction: column;
   background-color: ${colors.yellow};
+  border-radius: 7px;
   margin: 10px;
   width: 200px;
   height: 300px;
@@ -42,9 +47,10 @@ const CardWrap = styled.div`
   border: solid black;
   border-width: 1px 3px 5px 1px;
   position: relative;
+
   &:hover {
     transition: transform 0.1s ease;
-    transform: translate(-0.08em, -0.1em);
+    transform: translate(-0.2em, -0.1em);
   }
 
   &:active {

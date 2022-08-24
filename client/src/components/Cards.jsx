@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useState, useContext } from "react";
 import PageContext from "../PageContext";
 import Card from "./Card";
 import { Link } from "react-router-dom";
@@ -22,6 +22,23 @@ export default function Cards() {
     }
     return pager(a + p, b + p);
   }
+
+  // function pager(a, b) {
+  //   let aux = games.slice(a, b);
+  //   if (aux.length) {
+
+  //     setAllPages([
+  //       ...allPages,
+  //       ...aux
+  //     ])
+
+  //     console.log(allPages)
+  //     allGamesPaged.push(aux);
+  //   } else {
+  //     return allGamesPaged;
+  //   }
+  //   return pager(a + p, b + p);
+  // }
 
   if (games.length) {
     pager(0, 15);

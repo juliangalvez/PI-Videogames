@@ -75,11 +75,12 @@ const Nav = styled.nav`
     width: 136px;
     height: 61px;
     margin-right: 20px;
+    border-radius: 7px;
   }
   .rigth-div-add {
     background: black;
     width: 188px;
     height: 61px;
-    margin-right: 20px;
+    border-radius: 7px;
   }
 `;

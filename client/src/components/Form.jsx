@@ -1,6 +1,6 @@
 import axios from "axios";
 import { React, useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { pf, validate, validator } from "../js/modules";
 import { getGenres } from "../redux/actions";
@@ -13,6 +13,8 @@ export default function Form() {
   const dispatch = useDispatch();
   let genres = useSelector((state) => state.genres);
 
+  let history = useHistory();
+  
   useEffect(() => {
     dispatch(getGenres());
   }, [dispatch]);
@@ -100,6 +102,7 @@ export default function Form() {
     setMsj("The game has been added successfully");
     setTimeout(() => {
       setMsj("");
+      history.push("/videogames");
     }, 4000);
   }
 

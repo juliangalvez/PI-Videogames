@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import {
   getGames,
@@ -10,6 +10,7 @@ import {
   errorHandler,
 } from "../redux/actions";
 
+import PageContext from "../PageContext";
 import Cards from "./Cards";
 import NavBar from "./NavBar";
 import Pager from "./Pager";
@@ -36,6 +37,8 @@ export default function Home() {
   let genres = useSelector((state) => state.genres);
 
   const dispatch = useDispatch();
+
+  const { changePage } = useContext(PageContext);
 
   const [order, setOrder] = useState("");
   const [originBtn, setOriginBtn] = useState("all");
@@ -73,6 +76,8 @@ export default function Home() {
     document.getElementById(e.target.value).disabled = true;
     setOriginBtn(e.target.value);
     dispatch(filterCreated(e.target.value));
+    if (genreBtn !== "") handleCleanFilter();
+    
   }
 
   function handleFilterGenres(e) {
@@ -80,6 +85,7 @@ export default function Home() {
     if (genreBtn) document.getElementById(genreBtn).disabled = false;
     document.getElementById(e.target.value).disabled = true;
     setGenreBtn(e.target.value);
+    changePage(1);
     dispatch(filterByGenre(e.target.value));
   }
 
@@ -98,17 +104,21 @@ export default function Home() {
     document.getElementById("rating").value = "Sort by rating";
   }
 
+  function handleCleanFilter() {
+    document.getElementById(genreBtn).disabled = false;
+    setGenreBtn("");
+    dispatch(filterCreated(originBtn));
+  }
+
   return (
     <Theme>
       <Container>
         <div>
           <NavBar />
         </div>
-
         <div className="error-display">
           <Error />
         </div>
-
         <Content>
           <LeftCol>
             <Filters>
@@ -138,7 +148,17 @@ export default function Home() {
                 </div>
 
                 <div className="genres">
-                  <div className="genres-title">GENRE</div>
+                  <div className="genre-filter">
+                    <div className="genres-title">GENRE</div>
+                    {genreBtn === "" ? null : (
+                      <button
+                        className="erase-filter-btn"
+                        onClick={() => handleCleanFilter()}
+                      >
+                        X
+                      </button>
+                    )}
+                  </div>
                   <div>
                     <form>
                       {genres.map((g, i) => {
@@ -201,7 +221,6 @@ export default function Home() {
             </CardsWrap>
           </RightCol>
         </Content>
-       
       </Container>
     </Theme>
   );

@@ -40,6 +40,14 @@ export const getGameDetail = (id) => {
   };
 };
 
+export const cleanDetail = (payload) => {
+  return {
+    type: 'clean',
+    payload,
+  };
+};
+
+
 export const searchGame = (name) => {
   return async (dispatch) => {
     try {
