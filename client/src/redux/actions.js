@@ -14,7 +14,7 @@ import {
 export const getGames = () => {
   return async (dispatch) => {
     try {
-      let apiGet = await axios.get("http://localhost:3001/videogames");
+      let apiGet = await axios.get("/videogames");
       dispatch({ type: GET_GAMES, payload: apiGet.data });
     } catch (error) {
       dispatch({ type: "ERROR_HANDLER", payload: error.response.data });
@@ -24,7 +24,7 @@ export const getGames = () => {
 
 export const getGenres = () => {
   return async (dispatch) => {
-    let apiGet = await axios.get("http://localhost:3001/genres");
+    let apiGet = await axios.get("/genres");
     dispatch({ type: GET_GENRES, payload: apiGet.data });
   };
 };
@@ -32,7 +32,7 @@ export const getGenres = () => {
 export const getGameDetail = (id) => {
   return async (dispatch) => {
     try {
-      let apiGet = await axios.get(`http://localhost:3001/videogames/${id}`);
+      let apiGet = await axios.get(`/videogames/${id}`);
       dispatch({ type: GET_GAME_DETAIL, payload: apiGet.data });
     } catch (error) {
       dispatch({ type: "ERROR_HANDLER", payload: error.response.data });
@@ -52,7 +52,7 @@ export const searchGame = (name) => {
   return async (dispatch) => {
     try {
       let apiGet = await axios.get(
-        `http://localhost:3001/videogames?name=${name}`
+        `/videogames?name=${name}`
       );
       dispatch({ type: GET_SEARCH, payload: apiGet.data });
     } catch (error) {
