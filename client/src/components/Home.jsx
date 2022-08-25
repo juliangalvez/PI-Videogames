@@ -161,7 +161,7 @@ export default function Home() {
                   </div>
                   <div>
                     <form>
-                      {genres.map((g, i) => {
+                      {genres?.map((g, i) => {
                         return (
                           <div className="genres-map" key={g}>
                             <Btn
