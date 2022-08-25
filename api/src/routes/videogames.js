@@ -7,7 +7,8 @@ const { Op } = require("sequelize");
 const { API_KEY } = process.env;
 const { aB, validator } = require("../js/modules");
 
-const url = `https://api.rawg.io/api/games?key=${API_KEY}`;
+//const url = `https://api.rawg.io/api/games?key=${API_KEY}`;
+const url = `https://api.rawg.io/api/games?key=3ec462367fd7474da4953aa0569ef4e4`;
 
 // HOME
 router.get("/", async (req, res) => {
