@@ -161,7 +161,7 @@ export default function Home() {
                   </div>
                   <div>
                     <form>
-                      {genres.length ? genres.map((g, i) => {
+                      {genres.length ? (genres.map((g, i) => {
                         return (
                           <div className="genres-map" key={g}>
                             <Btn
@@ -174,7 +174,7 @@ export default function Home() {
                             </Btn>
                           </div>
                         );
-                      }) : null}
+                      })) : null}
                     </form>
                   </div>
                 </div>
